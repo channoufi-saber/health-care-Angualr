@@ -6,7 +6,7 @@ import { CommonModule } from '@angular/common';
 
 @Component({
   selector: 'app-nav',
-  imports: [RouterLink,CommonModule],
+  imports: [RouterLink, CommonModule],
   templateUrl: './nav.html',
   styleUrl: './nav.css',
 })
@@ -23,9 +23,15 @@ export class Nav implements OnInit {
     private router: Router,
     private apiService: ApiService,
   ) {
+    // Subscribes to the router's stream of events.
     this.routerSubscription = this.router.events
+      // Filters the events to only proceed when a navigation has successfully ended (NavigationEnd).
+      // This ensures the authentication check only runs after a new route has been loaded.
       .pipe(filter((event) => event instanceof NavigationEnd))
+      // When a successful navigation occurs, this callback is executed.
       .subscribe(() => {
+        // Calls the method to re-check and update the component's properties
+        // related to the user's authentication and role (patient/doctor) status.
         this.checkAuthStatus();
       });
   }
@@ -33,7 +39,8 @@ export class Nav implements OnInit {
   ngOnInit(): void {
     this.checkAuthStatus();
   }
-  checkAuthStatus() {
+
+  checkAuthStatus(): void {
     this.isAuthenticated = this.apiService.isAuthenticated();
     this.isPatient = this.apiService.isPatient();
     this.isDoctor = this.apiService.isDoctor();
@@ -60,6 +67,8 @@ export class Nav implements OnInit {
 
   ngOnDestroy(): void {
     if (this.routerSubscription) {
+      // It's crucial to unsubscribe from the router events to prevent memory leaks
+      // when the component is destroyed.
       this.routerSubscription.unsubscribe();
     }
   }
