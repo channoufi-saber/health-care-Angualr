@@ -8,6 +8,7 @@ import { UpdateProfile } from './components/update-profile/update-profile';
 import { UpdatePassword } from './components/update-password/update-password';
 import { BookConsultation } from './components/book-consultation/book-consultation';
 import { MyAppointments } from './components/my-appointments/my-appointments';
+import { ConsultationHistory } from './components/consultation-history/consultation-history';
 
 export const routes: Routes = [
   { path: 'register', component: Reg },
@@ -21,4 +22,5 @@ export const routes: Routes = [
   { path: 'update-password', component: UpdatePassword },
   { path: 'book-appointment', component: BookConsultation },
   { path: 'my-appointments', component: MyAppointments },
+  { path: 'consultation-history', component: ConsultationHistory },
 ];
